@@ -46,12 +46,20 @@ public class MainClass {
 
         System.out.println(shape.toString());
 
+        if (shape instanceof Triangable) {
+            Triangle[] innerTriangles = ((Triangable) shape).representAsTriangles();
+            System.out.println("This shape can be represented as " + innerTriangles.length + " triangles. Here is their properties:");
+            for (int i = 0; i < innerTriangles.length; i++) {
+                System.out.println((i + 1) + ". " + innerTriangles[i].toString());
+                diaplayShapeProperties(innerTriangles[i]);
+            }
+        }
+
         reader.close();
     }
 
     private static Shape configureShape(Shape shape) {
         Object[][] properties = shape.getProperties();
-
         for (Object[] property : properties) {
             while (true) {
                 System.out.println("Enter " + property[0] + " for " + shape.getName() + ":");
@@ -63,8 +71,18 @@ public class MainClass {
                 }
             }
         }
-
         shape.setProperties(properties);
         return shape;
+    }
+
+    private static void diaplayShapeProperties(Shape shape) {
+        Object[][] properties = shape.getProperties();
+        for (Object[] property : properties) {
+            System.out.println(setFirstCharUppercase((String) property[0]) + " equal " + property[1] + ".");
+        }
+    }
+
+    private static String setFirstCharUppercase(String input) {
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
     }
 }
