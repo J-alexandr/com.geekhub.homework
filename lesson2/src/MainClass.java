@@ -3,6 +3,7 @@ import figures.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class MainClass {
     private static Shape shape;
@@ -12,6 +13,7 @@ public class MainClass {
     public static void main(String[] args) throws IOException {
         while (selectedType == null) {
             try {
+                System.out.println("Available shapes: " + Arrays.toString(ShapeTypes.values()));
                 System.out.println("Enter shape name:");
                 selectedType = ShapeTypes.valueOf(reader.readLine().toUpperCase());
             } catch (IllegalArgumentException e) {
