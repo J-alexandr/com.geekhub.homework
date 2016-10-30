@@ -21,6 +21,6 @@ public abstract class Shape {
 
     @Override
     public String toString() {
-        return getName().substring(0, 1).toUpperCase() + getName().substring(1) + "'s area is " + calculateArea() + ", perimeter is " + calculatePerimeter() + ".";
+        return getName().substring(0, 1).toUpperCase() + getName().substring(1) + "'s area is " + calculateArea() + " (rounded), perimeter is " + calculatePerimeter() + " (rounded).";
     }
 }
