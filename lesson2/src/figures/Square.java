@@ -30,11 +30,11 @@ public class Square extends Shape implements Triangable {
         return (int) (Math.sqrt(2) * Double.valueOf(String.valueOf(properties[0][1])));
     }
 
-    static Triangle configureInnerTriangle(Shape parrent, Triangle triangle) {
+    static Triangle configureInnerTriangle(Shape parent, Triangle triangle) {
         Object[][] properties = triangle.getProperties();
-        properties[0][1] = parrent.properties[0][1];
-        properties[1][1] = parrent.properties[0][1];
-        properties[2][1] = ((Triangable) parrent).calculateMedian();
+        properties[0][1] = parent.properties[0][1];
+        properties[1][1] = parent.properties[0][1];
+        properties[2][1] = ((Triangable) parent).calculateMedian();
         triangle.setProperties(properties);
         return triangle;
     }

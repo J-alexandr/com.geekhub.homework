@@ -7,15 +7,15 @@ import java.util.Arrays;
 
 public class MainClass {
     private static Shape shape;
-    private static ShapeTypes selectedType;
+    private static ShapeType selectedType;
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
         while (selectedType == null) {
             try {
-                System.out.println("Available shapes: " + Arrays.toString(ShapeTypes.values()));
+                System.out.println("Available shapes: " + Arrays.toString(ShapeType.values()));
                 System.out.println("Enter shape name:");
-                selectedType = ShapeTypes.valueOf(reader.readLine().toUpperCase());
+                selectedType = ShapeType.valueOf(reader.readLine().toUpperCase());
             } catch (IllegalArgumentException e) {
                 System.out.println("Incorrect shape! Try again.");
             } catch (NullPointerException e) {

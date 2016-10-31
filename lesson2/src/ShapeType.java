@@ -1,3 +1,3 @@
-enum ShapeTypes {
+enum ShapeType {
     CIRCLE, SQUARE, RECTANGLE, TRIANGLE
 }
