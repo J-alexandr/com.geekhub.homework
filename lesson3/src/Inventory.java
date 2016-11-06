@@ -1,8 +1,6 @@
 import products.Product;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 class Inventory {
     private Map<Product, Integer> store = new HashMap<>();
@@ -44,7 +42,15 @@ class Inventory {
         return summaryValue;
     }
 
-    Object[] getInStockProducts() {
-        return store.keySet().toArray();
+    Product[] getInStockProducts() {
+        List<Product> products = new ArrayList<>();
+        Iterator iterator = store.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry pair = (Map.Entry) iterator.next();
+            if ((Integer) pair.getValue() > 0) {
+                products.add((Product) pair.getKey());
+            }
+        }
+        return products.toArray(new Product[products.size()]);
     }
 }
