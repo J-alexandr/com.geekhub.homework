@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class MainClass {
 
@@ -31,6 +32,7 @@ public class MainClass {
                     case UPDATEQUANTITY:
                         break;
                     case INSTOCK:
+                        System.out.println("Products in stock: " + Arrays.toString(Inventory.getInventory().getInStockProducts()));
                         break;
                     case INVENTORYVALUE:
                         System.out.println("Total inventory value: " + Inventory.getInventory().getInventoryValue());
@@ -47,6 +49,7 @@ public class MainClass {
                 }
             } catch (Exception e) {
                 System.out.println("Unknown command.");
+                e.printStackTrace();
             }
         } while (command != Command.EXIT);
     }

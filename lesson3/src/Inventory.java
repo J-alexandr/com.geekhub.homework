@@ -43,4 +43,8 @@ class Inventory {
         }
         return summaryValue;
     }
+
+    Object[] getInStockProducts() {
+        return store.keySet().toArray();
+    }
 }
