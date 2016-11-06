@@ -27,11 +27,9 @@ public class MainClass {
                     case ADD:
                         addToInventory();
                         break;
-                    case DELETE:
+                    case REMOVE:
                         System.out.println("Enter product name to delete:");
                         deleteFromInventory(reader.readLine());
-                        break;
-                    case UPDATEQUANTITY:
                         break;
                     case INSTOCK:
                         System.out.println("Products in stock: " + Arrays.toString(Inventory.getInventory().getInStockProducts()));
@@ -47,6 +45,7 @@ public class MainClass {
                         printHelp();
                         break;
                     case EXIT:
+                        System.out.println("Goodbye!");
                         break;
                 }
             } catch (Exception e) {
