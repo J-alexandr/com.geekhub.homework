@@ -25,7 +25,7 @@ public class MainClass {
                 command = Command.valueOf(reader.readLine().toUpperCase());
                 switch (command) {
                     case ADD:
-                        addToInventory();
+                        addToInventory(reader);
                         break;
                     case REMOVE:
                         System.out.println("Enter product name to delete:");
@@ -77,10 +77,11 @@ public class MainClass {
                 Command.values()) {
             System.out.print(command + ", ");
         }
+        System.out.println();
     }
 
-    private static void addToInventory() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+    private static void addToInventory(BufferedReader reader) {
+        try {
             System.out.println("Enter product name:");
             String productName = reader.readLine();
             System.out.println("Enter product price:");
