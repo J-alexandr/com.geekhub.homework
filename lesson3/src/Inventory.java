@@ -53,4 +53,17 @@ class Inventory {
         }
         return products.toArray(new Product[products.size()]);
     }
+
+    boolean deleteProduct(String productName) {
+        boolean success = false;
+        Iterator iterator = store.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry pair = (Map.Entry) iterator.next();
+            if (productName.toLowerCase().equals(((Product) pair.getKey()).getName().toLowerCase())) {
+                iterator.remove();
+                success = true;
+            }
+        }
+        return success;
+    }
 }

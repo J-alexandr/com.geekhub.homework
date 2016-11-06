@@ -28,6 +28,8 @@ public class MainClass {
                         addToInventory();
                         break;
                     case DELETE:
+                        System.out.println("Enter product name to delete:");
+                        deleteFromInventory(reader.readLine());
                         break;
                     case UPDATEQUANTITY:
                         break;
@@ -52,6 +54,14 @@ public class MainClass {
                 e.printStackTrace();
             }
         } while (command != Command.EXIT);
+    }
+
+    private static void deleteFromInventory(String productName) {
+        if (Inventory.getInventory().deleteProduct(productName)) {
+            System.out.println("Product " + productName + " removed from the inventory.");
+        } else {
+            System.out.println("Product " + productName + " doesn't exist in the inventory");
+        }
     }
 
     private static void getProductValue(String productName) {
@@ -81,7 +91,7 @@ public class MainClass {
             Inventory.getInventory().addProduct(productName,quantity,price);
             System.out.println("Inventory successfully updated.");
         } catch (Exception e) {
-            System.out.println("Product didn't put to inventory.");
+            System.out.println("Product didn't put to the inventory.");
             e.printStackTrace();
         }
     }
