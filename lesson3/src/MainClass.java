@@ -36,6 +36,8 @@ public class MainClass {
                         System.out.println("Total inventory value: " + Inventory.getInventory().getInventoryValue());
                         break;
                     case PRODUCTVALUE:
+                        System.out.println("Enter product name:");
+                        getProductValue(reader.readLine());
                         break;
                     case HELP:
                         printHelp();
@@ -47,6 +49,14 @@ public class MainClass {
                 System.out.println("Unknown command.");
             }
         } while (command != Command.EXIT);
+    }
+
+    private static void getProductValue(String productName) {
+        int productValue = Inventory.getInventory().getProductValue(productName);
+        if (productValue == 0)
+            System.out.println("There are no such product in the inventory.");
+        else
+            System.out.println("Inventory: " + productName + " value is " + productValue);
     }
 
     private static void printHelp() {

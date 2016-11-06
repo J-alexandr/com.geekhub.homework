@@ -38,7 +38,7 @@ class Inventory {
         int summaryValue = 0;
         while (iterator.hasNext()) {
             Map.Entry pair = (Map.Entry) iterator.next();
-            if (productName.equals(((Product) pair.getKey()).getName()))
+            if (productName.toLowerCase().equals(((Product) pair.getKey()).getName().toLowerCase()))
                 summaryValue += ((Product) pair.getKey()).getPrice() * Integer.parseInt(pair.getValue().toString());
         }
         return summaryValue;

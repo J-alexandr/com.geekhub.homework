@@ -24,8 +24,7 @@ public class Product {
 
         Product product = (Product) o;
 
-        if (price != product.price) return false;
-        return name.equals(product.name);
+        return price == product.price && name.equals(product.name);
     }
 
     @Override
