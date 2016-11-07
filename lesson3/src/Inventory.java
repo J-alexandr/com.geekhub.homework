@@ -4,8 +4,8 @@ import products.ProductCategory;
 import java.util.*;
 
 class Inventory {
-    private Map<Product, Integer> store = new HashMap<>();
     private static Inventory inventory;
+    private Map<Product, Integer> store = new HashMap<>();
 
     static Inventory getInventory() {
         if (inventory == null)

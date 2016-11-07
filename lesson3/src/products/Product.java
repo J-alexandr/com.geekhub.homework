@@ -11,8 +11,9 @@ public class Product {
         this.price = price;
     }
 
-
-    public ProductCategory getProductCategory() { return productCategory; }
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
 
     public int getPrice() {
         return price;
