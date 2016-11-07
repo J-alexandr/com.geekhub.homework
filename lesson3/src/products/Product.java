@@ -3,11 +3,16 @@ package products;
 public class Product {
     private String name;
     private int price;
+    private ProductCategory productCategory;
 
-    public Product(String name, int price) {
+    public Product(ProductCategory productCategory, String name, int price) {
+        this.productCategory = productCategory;
         this.name = name;
         this.price = price;
     }
+
+
+    public ProductCategory getProductCategory() { return productCategory; }
 
     public int getPrice() {
         return price;
@@ -22,6 +27,7 @@ public class Product {
         return "Product{" +
                 "name='" + name + '\'' +
                 ", price=" + price +
+                ", productCategory=" + productCategory +
                 '}';
     }
 

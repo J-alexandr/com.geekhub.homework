@@ -1,4 +1,5 @@
 import products.Product;
+import products.ProductCategory;
 
 import java.util.*;
 
@@ -12,6 +13,17 @@ class Inventory {
         return inventory;
     }
 
+    int getCategoryValue(ProductCategory productCategory) {
+        Iterator iterator = store.entrySet().iterator();
+        int summaryValue = 0;
+        while (iterator.hasNext()) {
+            Map.Entry pair = (Map.Entry) iterator.next();
+            if (productCategory == ((Product) pair.getKey()).getProductCategory())
+                summaryValue += ((Product) pair.getKey()).getPrice() * Integer.parseInt(pair.getValue().toString());
+        }
+        return summaryValue;
+    }
+
     int getInventoryValue() {
         Iterator iterator = store.entrySet().iterator();
         int summaryValue = 0;
@@ -22,8 +34,8 @@ class Inventory {
         return summaryValue;
     }
 
-    void addProduct(String name, int quantity, int price) {
-        Product product = new Product(name, price);
+    void addProduct(ProductCategory productCategory, String name, int quantity, int price) {
+        Product product = new Product(productCategory, name, price);
         if (store.containsKey(product)) {
             int updatedQuantity = store.get(product) + quantity;
             store.put(product, updatedQuantity);
@@ -54,7 +66,7 @@ class Inventory {
         return products.toArray(new Product[products.size()]);
     }
 
-    boolean deleteProduct(String productName) {
+    boolean removeProduct(String productName) {
         boolean success = false;
         Iterator iterator = store.entrySet().iterator();
         while (iterator.hasNext()) {

@@ -1,74 +1,118 @@
+import products.ProductCategory;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class MainClass {
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void main(String[] args) {
-        Inventory.getInventory().addProduct("Xbox 360", 1, 300);
-        Inventory.getInventory().addProduct("PS4", 1, 400);
-        Inventory.getInventory().addProduct("Dendy", 4, 25);
+    public static void main(String[] args) throws IOException {
+        fillInInventory();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+        try {
             System.out.println("Welcome to JInventory! Enter HELP to display available commands.");
-            readCommands(reader);
+            readCommands();
+            System.out.println("Goodbye!");
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            reader.close();
         }
     }
 
-    private static void readCommands(BufferedReader reader) {
+    private static void fillInInventory() {
+        Inventory.getInventory().addProduct(ProductCategory.GAME_CONSOLE, "Xbox 360", 1, 300);
+        Inventory.getInventory().addProduct(ProductCategory.GAME_CONSOLE, "PS4", 1, 400);
+        Inventory.getInventory().addProduct(ProductCategory.GAME_CONSOLE, "Dendy", 4, 25);
+        Inventory.getInventory().addProduct(ProductCategory.LAPTOP, "Asus z466", 2, 555);
+        Inventory.getInventory().addProduct(ProductCategory.TV, "LG K911", 5, 210);
+    }
+
+    private static void readCommands() {
         Command command = null;
         do {
-            System.out.println("Enter command:");
+            System.out.print("Enter command:\n>> ");
             try {
                 command = Command.valueOf(reader.readLine().toUpperCase());
                 switch (command) {
                     case ADD:
-                        addToInventory(reader);
+                        addProductToInventory();
                         break;
                     case REMOVE:
-                        System.out.println("Enter product name to delete:");
-                        deleteFromInventory(reader.readLine());
+                        removeProductFromInventory();
                         break;
-                    case INSTOCK:
-                        System.out.println("Products in stock: " + Arrays.toString(Inventory.getInventory().getInStockProducts()));
+                    case IN_STOCK:
+                        getProductsInStock();
                         break;
-                    case INVENTORYVALUE:
-                        System.out.println("Total inventory value: " + Inventory.getInventory().getInventoryValue());
+                    case INVENTORY_VALUE:
+                        getInventoryValue();
                         break;
-                    case PRODUCTVALUE:
-                        System.out.println("Enter product name:");
-                        getProductValue(reader.readLine());
+                    case PRODUCT_VALUE:
+                        getProductValue();
+                        break;
+                    case CATEGORY_VALUE:
+                        getCategoryValue();
                         break;
                     case HELP:
                         printHelp();
                         break;
                     case EXIT:
-                        System.out.println("Goodbye!");
                         break;
                 }
             } catch (Exception e) {
-                System.out.println("Unknown command.");
-                e.printStackTrace();
+                System.out.println("Unknown command. Error message: " + e.getMessage());
+                printHelp();
             }
         } while (command != Command.EXIT);
     }
 
-    private static void deleteFromInventory(String productName) {
-        if (Inventory.getInventory().deleteProduct(productName)) {
-            System.out.println("Product " + productName + " removed from the inventory.");
-        } else {
-            System.out.println("Product " + productName + " doesn't exist in the inventory");
+    private static void getCategoryValue() {
+        try {
+            System.out.println("Available categories: " + Arrays.toString(ProductCategory.values()));
+            System.out.println("Enter product category:");
+            ProductCategory productCategory = ProductCategory.valueOf(reader.readLine().toUpperCase());
+            int categoryValue = Inventory.getInventory().getCategoryValue(productCategory);
+            if (categoryValue == 0)
+                System.out.println("There are no such category in the inventory.");
+            else
+                System.out.println("Inventory: category " + productCategory + " value is " + categoryValue + ".");
+        } catch (Exception e) {
+            System.out.println("Error while processing command. Error message: " + e.getMessage());
         }
     }
 
-    private static void getProductValue(String productName) {
-        int productValue = Inventory.getInventory().getProductValue(productName);
-        if (productValue == 0)
-            System.out.println("There are no such product in the inventory.");
-        else
-            System.out.println("Inventory: " + productName + " value is " + productValue);
+    private static void getProductsInStock() {
+        System.out.println("Products in stock: " + Arrays.toString(Inventory.getInventory().getInStockProducts()));
+    }
+
+    private static void removeProductFromInventory() {
+        try {
+            System.out.println("Enter product name to delete:");
+            String productName = reader.readLine();
+            if (Inventory.getInventory().removeProduct(productName)) {
+                System.out.println("Product " + productName + " removed from the inventory.");
+            } else {
+                System.out.println("Product " + productName + " doesn't exist in the inventory.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error while processing command. Error message: " + e.getMessage());
+        }
+    }
+
+    private static void getProductValue() {
+        try {
+            System.out.println("Enter product name:");
+            String productName = reader.readLine();
+            int productValue = Inventory.getInventory().getProductValue(productName);
+            if (productValue == 0)
+                System.out.println("There are no such product in the inventory.");
+            else
+                System.out.println("Inventory: " + productName + " value is " + productValue + ".");
+        } catch (Exception e) {
+            System.out.println("Error while processing command. Error message: " + e.getMessage());
+        }
     }
 
     private static void printHelp() {
@@ -80,19 +124,25 @@ public class MainClass {
         System.out.println();
     }
 
-    private static void addToInventory(BufferedReader reader) {
+    private static void addProductToInventory() {
         try {
+            System.out.println("Available categories: " + Arrays.toString(ProductCategory.values()));
+            System.out.println("Enter product category:");
+            ProductCategory productCategory = ProductCategory.valueOf(reader.readLine().toUpperCase());
             System.out.println("Enter product name:");
             String productName = reader.readLine();
             System.out.println("Enter product price:");
             int price = Integer.parseInt(reader.readLine());
             System.out.println("Enter product quantity:");
             int quantity = Integer.parseInt(reader.readLine());
-            Inventory.getInventory().addProduct(productName,quantity,price);
+            Inventory.getInventory().addProduct(productCategory, productName, quantity, price);
             System.out.println("Inventory successfully updated.");
         } catch (Exception e) {
-            System.out.println("Product didn't put to the inventory.");
-            e.printStackTrace();
+            System.out.println("Product didn't put to the inventory. Error message: " + e.getMessage());
         }
+    }
+
+    private static void getInventoryValue() {
+        System.out.println("Total inventory value: " + Inventory.getInventory().getInventoryValue());
     }
 }
