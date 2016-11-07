@@ -15,12 +15,12 @@ public abstract class Shape {
         this.properties = properties;
     }
 
-    public abstract int calculateArea();
+    public abstract double calculateArea();
 
-    public abstract int calculatePerimeter();
+    public abstract double calculatePerimeter();
 
     @Override
     public String toString() {
-        return getName().substring(0, 1).toUpperCase() + getName().substring(1) + "'s area is " + calculateArea() + " (rounded), perimeter is " + calculatePerimeter() + " (rounded).";
+        return getName().substring(0, 1).toUpperCase() + getName().substring(1) + "'s area is " + calculateArea() + " , perimeter is " + calculatePerimeter() + ".";
     }
 }

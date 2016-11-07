@@ -7,12 +7,12 @@ public class Circle extends Shape {
     }
 
     @Override
-    public int calculateArea() {
-        return ((int) Math.PI * (int) properties[0][1] * (int) properties[0][1]);
+    public double calculateArea() {
+        return (Math.PI * Double.parseDouble(String.valueOf(properties[0][1])) * Double.parseDouble(String.valueOf(properties[0][1])));
     }
 
     @Override
-    public int calculatePerimeter() {
-        return (2 * (int) Math.PI * (int) properties[0][1]);
+    public double calculatePerimeter() {
+        return (2 * Math.PI * Double.parseDouble(String.valueOf(properties[0][1])));
     }
 }

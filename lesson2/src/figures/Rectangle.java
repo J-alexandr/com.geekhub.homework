@@ -8,13 +8,13 @@ public class Rectangle extends Shape implements Triangable {
     }
 
     @Override
-    public int calculateArea() {
-        return (int) properties[0][1] * (int) properties[1][1];
+    public double calculateArea() {
+        return Double.parseDouble(String.valueOf(properties[0][1])) * Double.parseDouble(String.valueOf(properties[1][1]));
     }
 
     @Override
-    public int calculatePerimeter() {
-        return ((int) properties[0][1] + (int) properties[1][1]) * 2;
+    public double calculatePerimeter() {
+        return (Double.parseDouble(String.valueOf(properties[0][1])) + Double.parseDouble(String.valueOf(properties[1][1])) * 2);
     }
 
     @Override

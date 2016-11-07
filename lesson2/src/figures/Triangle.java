@@ -9,16 +9,16 @@ public class Triangle extends Shape {
     }
 
     @Override
-    public int calculateArea() {
-        double halfPerimeter = (double) calculatePerimeter() / 2;
-        return (int) Math.sqrt(halfPerimeter
-                * (halfPerimeter - (int) properties[0][1])
-                * (halfPerimeter - (int) properties[1][1])
-                * (halfPerimeter - (int) properties[2][1]));
+    public double calculateArea() {
+        double halfPerimeter = calculatePerimeter() / 2;
+        return (Math.sqrt(halfPerimeter
+                * (halfPerimeter - Double.parseDouble(String.valueOf(properties[0][1]))
+                * (halfPerimeter - Double.parseDouble(String.valueOf(properties[1][1]))
+                * (halfPerimeter - Double.parseDouble(String.valueOf(properties[2][1])))))));
     }
 
     @Override
-    public int calculatePerimeter() {
-        return (int) properties[0][1] + (int) properties[1][1] + (int) properties[2][1];
+    public double calculatePerimeter() {
+        return Double.parseDouble(String.valueOf(properties[0][1])) + Double.parseDouble(String.valueOf(properties[1][1])) + Double.parseDouble(String.valueOf(properties[2][1]));
     }
 }

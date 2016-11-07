@@ -7,13 +7,13 @@ public class Square extends Shape implements Triangable {
     }
 
     @Override
-    public int calculateArea() {
-        return (int) properties[0][1] * (int) properties[0][1];
+    public double calculateArea() {
+        return Double.parseDouble(String.valueOf(properties[0][1])) * Double.parseDouble(String.valueOf(properties[0][1]));
     }
 
     @Override
-    public int calculatePerimeter() {
-        return (int) properties[0][1] * 4;
+    public double calculatePerimeter() {
+        return Double.parseDouble(String.valueOf(properties[0][1])) * 4;
     }
 
     @Override
