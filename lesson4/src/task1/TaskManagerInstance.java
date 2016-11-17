@@ -35,9 +35,6 @@ class TaskManagerInstance implements TaskManager {
     public Map<String, List<Task>> getTasksByCategories(String... categories) {
         Map<String, List<Task>> tasksByCategories = new HashMap<>();
 
-        if (tasks == null)
-            return tasksByCategories;
-
         for (String category : categories) {
             tasksByCategories.put(category, getTasksByCategory(category));
         }
