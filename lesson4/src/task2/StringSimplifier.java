@@ -16,9 +16,10 @@ class StringSimplifier {
     }
 
     List<String> getSimpleWords() {
+        int maxLength = 10;
         List<String> simpleWords = new ArrayList<>();
         for (String word : inputWords) {
-            if (word.length() >= 10)
+            if (word.length() >= maxLength)
                 simpleWords.add(simplify(word));
             else
                 simpleWords.add(word);
