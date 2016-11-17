@@ -19,11 +19,12 @@ public class FileSourceProvider implements SourceProvider {
 
     @Override
     public String load(String pathToSource) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(pathToSource));
         StringBuilder stringBuilder = new StringBuilder();
-        while (reader.ready()) {
-            stringBuilder.append(reader.readLine());
-            if (reader.ready()) stringBuilder.append("\n");
+        try(BufferedReader reader = new BufferedReader(new FileReader(pathToSource))) {
+            while (reader.ready()) {
+                stringBuilder.append(reader.readLine());
+                if (reader.ready()) stringBuilder.append("\n");
+            }
         }
         return stringBuilder.toString();
     }
