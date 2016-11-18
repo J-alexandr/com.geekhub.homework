@@ -20,7 +20,6 @@ public class URLSourceProvider implements SourceProvider {
             connection.connect();
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
             return false;
         }
     }
