@@ -37,9 +37,13 @@ public class Translator {
      * @return translated text
      * @throws IOException
      */
-    public String translate(String original) throws IOException, ParserConfigurationException, SAXException {
+    public String translate(String original) throws IOException, TranslateException {
         String response = urlSourceProvider.load(prepareURL(original));
-        return parseContent(response);
+        try {
+            return parseContent(response);
+        } catch (SAXException | ParserConfigurationException e) {
+            throw new TranslateException(e);
+        }
     }
 
     /**
@@ -58,7 +62,7 @@ public class Translator {
      * @param content that was received from Yandex Translate API by invoking prepared URL
      * @return translated text
      */
-    private String parseContent(String content) throws IOException, SAXException, ParserConfigurationException {
+    private String parseContent(String content) throws IOException, ParserConfigurationException, SAXException {
         String translatedText;
         Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(content.getBytes()));
         NodeList nodeList = document.getElementsByTagName("text");
