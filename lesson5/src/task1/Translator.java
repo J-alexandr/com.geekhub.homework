@@ -1,8 +1,15 @@
 package task1;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import task1.source.URLSourceProvider;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * Provides utilities for translating texts to russian language.<br/>
@@ -18,7 +25,7 @@ public class Translator {
     private static final String TRANSLATION_DIRECTION = "ru";
 
     private URLSourceProvider urlSourceProvider;
-    
+
     public Translator(URLSourceProvider urlSourceProvider) {
         this.urlSourceProvider = urlSourceProvider;
     }
@@ -30,9 +37,9 @@ public class Translator {
      * @return translated text
      * @throws IOException
      */
-    public String translate(String original) throws IOException {
-        //TODO: implement me
-        return null;
+    public String translate(String original) throws IOException, ParserConfigurationException, SAXException {
+        String response = urlSourceProvider.load(prepareURL(original));
+        return parseContent(response);
     }
 
     /**
@@ -41,7 +48,7 @@ public class Translator {
      * @param text to translate
      * @return url for translation specified text
      */
-    private String prepareURL(String text) {
+    private String prepareURL(String text) throws IOException {
         return "https://translate.yandex.net/api/v1.5/tr/translate?key=" + YANDEX_API_KEY + "&text=" + encodeText(text) + "&lang=" + TRANSLATION_DIRECTION;
     }
 
@@ -51,9 +58,12 @@ public class Translator {
      * @param content that was received from Yandex Translate API by invoking prepared URL
      * @return translated text
      */
-    private String parseContent(String content) {
-        //TODO: implement me
-        return null;
+    private String parseContent(String content) throws IOException, SAXException, ParserConfigurationException {
+        String translatedText;
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(content.getBytes()));
+        NodeList nodeList = document.getElementsByTagName("text");
+        translatedText = nodeList.item(0).getTextContent();
+        return translatedText;
     }
 
     /**
@@ -62,8 +72,8 @@ public class Translator {
      * @param text to be translated
      * @return encoded text
      */
-    private String encodeText(String text) {
-        //TODO: implement me
-        return null;
+    private String encodeText(String text) throws IOException {
+        text = URLEncoder.encode(text, "UTF-8");
+        return text;
     }
 }
