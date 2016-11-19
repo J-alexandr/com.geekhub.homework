@@ -2,11 +2,8 @@ package task1.source;
 
 import task1.exceptions.SourceLoadingException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Implementation for loading content from specified URL.<br/>
