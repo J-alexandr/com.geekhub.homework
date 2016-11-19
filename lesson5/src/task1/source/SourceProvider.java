@@ -1,6 +1,6 @@
 package task1.source;
 
-import java.io.IOException;
+import task1.exceptions.SourceLoadingException;
 
 /**
  * Base interface to access different sources.</br>
@@ -19,5 +19,5 @@ public interface SourceProvider {
      * @param pathToSource absolute path to the source
      * @return content of the source for specified pathToSource
      */
-    String load(String pathToSource) throws IOException;
+    String load(String pathToSource) throws SourceLoadingException;
 }

@@ -1,6 +1,7 @@
 package task1.source;
 
-import java.io.IOException;
+import task1.exceptions.SourceLoadingException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,21 +16,13 @@ public class SourceLoader {
         sourceProviders.add(new FileSourceProvider());
     }
 
-    public String loadSource(String pathToSource) throws IOException {
-        SourceProvider provider = null;
-        String loadedSource;
-
-        for (SourceProvider providerImplementation : sourceProviders) {
-            if (providerImplementation.isAllowed(pathToSource)) {
-                provider = providerImplementation;
-                break;
+    public String loadSource(String pathToSource) throws SourceLoadingException {
+        for (SourceProvider sourceProvider : sourceProviders) {
+            if (sourceProvider.isAllowed(pathToSource)) {
+                return sourceProvider.load(pathToSource);
             }
         }
 
-        if (provider == null)
-            throw new NullPointerException();
-
-        loadedSource = provider.load(pathToSource);
-        return loadedSource;
+        return null;
     }
 }

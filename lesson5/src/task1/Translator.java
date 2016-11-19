@@ -3,6 +3,8 @@ package task1;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import task1.exceptions.SourceLoadingException;
+import task1.exceptions.TranslateException;
 import task1.source.URLSourceProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,11 +39,11 @@ public class Translator {
      * @return translated text
      * @throws IOException
      */
-    public String translate(String original) throws IOException, TranslateException {
-        String response = urlSourceProvider.load(prepareURL(original));
+    public String translate(String original) throws TranslateException {
         try {
+            String response = urlSourceProvider.load(prepareURL(original));
             return parseContent(response);
-        } catch (SAXException | ParserConfigurationException e) {
+        } catch (SAXException | ParserConfigurationException | SourceLoadingException | IOException e) {
             throw new TranslateException(e);
         }
     }
@@ -53,7 +55,9 @@ public class Translator {
      * @return url for translation specified text
      */
     private String prepareURL(String text) throws IOException {
-        return "https://translate.yandex.net/api/v1.5/tr/translate?key=" + YANDEX_API_KEY + "&text=" + encodeText(text) + "&lang=" + TRANSLATION_DIRECTION;
+        return "https://translate.yandex.net/api/v1.5/tr/translate?key=" + YANDEX_API_KEY +
+                "&text=" + encodeText(text) +
+                "&lang=" + TRANSLATION_DIRECTION;
     }
 
     /**
@@ -63,11 +67,11 @@ public class Translator {
      * @return translated text
      */
     private String parseContent(String content) throws IOException, ParserConfigurationException, SAXException {
-        String translatedText;
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(content.getBytes()));
+        Document document = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder()
+                .parse(new ByteArrayInputStream(content.getBytes()));
         NodeList nodeList = document.getElementsByTagName("text");
-        translatedText = nodeList.item(0).getTextContent();
-        return translatedText;
+        return nodeList.item(0).getTextContent();
     }
 
     /**
@@ -77,7 +81,6 @@ public class Translator {
      * @return encoded text
      */
     private String encodeText(String text) throws IOException {
-        text = URLEncoder.encode(text, "UTF-8");
-        return text;
+        return URLEncoder.encode(text, "UTF-8");
     }
 }

@@ -1,5 +1,7 @@
 package task1.source;
 
+import task1.exceptions.SourceLoadingException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,9 +17,7 @@ public class URLSourceProvider implements SourceProvider {
     @Override
     public boolean isAllowed(String pathToSource) {
         try {
-            URL url = new URL(pathToSource);
-            URLConnection connection = url.openConnection();
-            connection.connect();
+            new URL(pathToSource);
             return true;
         } catch (IOException e) {
             return false;
@@ -25,16 +25,13 @@ public class URLSourceProvider implements SourceProvider {
     }
 
     @Override
-    public String load(String pathToSource) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        URL url = new URL(pathToSource);
-        URLConnection connection = url.openConnection();
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            while (reader.ready()) {
-                stringBuilder.append(reader.readLine());
-                if (reader.ready()) stringBuilder.append("\n");
-            }
+    public String load(String pathToSource) throws SourceLoadingException {
+        try {
+            URL url = new URL(pathToSource);
+            URLConnection connection = url.openConnection();
+            return SourceUtils.toString(connection.getInputStream());
+        } catch (IOException e) {
+            throw new SourceLoadingException(e);
         }
-        return stringBuilder.toString();
     }
 }
