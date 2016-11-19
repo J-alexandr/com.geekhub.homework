@@ -28,8 +28,7 @@ public class URLSourceProvider implements SourceProvider {
     public String load(String pathToSource) throws SourceLoadingException {
         try {
             URL url = new URL(pathToSource);
-            URLConnection connection = url.openConnection();
-            return SourceUtils.toString(connection.getInputStream());
+            return SourceUtils.toString(url.openStream());
         } catch (IOException e) {
             throw new SourceLoadingException(e);
         }
