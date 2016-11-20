@@ -12,8 +12,9 @@ public class Archivator {
         this.parentDirectoryPath = parentDirectoryPath;
     }
 
-    void archiveFiles(List<File> files) {
-        try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(parentDirectoryPath))) {
+    void archiveFiles(List<File> files, String archiveName) {
+        String absoluteZipArchivePath = parentDirectoryPath.concat("\\").concat(archiveName).concat(".zip");
+        try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(absoluteZipArchivePath))) {
             for (File file : files) {
 
                 byte[] fileInBytes = readFileToBytes(file);
