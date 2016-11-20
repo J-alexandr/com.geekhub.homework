@@ -18,9 +18,9 @@ class FilesSearcher {
     FilesSearcher(String parentDirectoryPath) {
         this.parentDirectoryPath = parentDirectoryPath;
         filesByCategories = new HashMap<>();
-        filesByCategories.put(FileType.AUDIO, new ArrayList<>());
-        filesByCategories.put(FileType.IMAGE, new ArrayList<>());
-        filesByCategories.put(FileType.VIDEO, new ArrayList<>());
+        for (FileType type : FileType.values()) {
+            filesByCategories.put(type, new ArrayList<>());
+        }
     }
 
     List<File> getListOfFiles() throws IOException {

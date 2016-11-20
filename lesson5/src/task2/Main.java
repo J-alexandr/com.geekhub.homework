@@ -19,9 +19,9 @@ public class Main {
 
             Archivator archivator = new Archivator(parentDirectoryPath);
 
-            archivator.archiveFiles(filesByCategories.get(FileType.AUDIO), FileType.AUDIO.toString());
-            archivator.archiveFiles(filesByCategories.get(FileType.IMAGE), FileType.IMAGE.toString());
-            archivator.archiveFiles(filesByCategories.get(FileType.VIDEO), FileType.VIDEO.toString());
+            for (FileType type : FileType.values()) {
+                archivator.archiveFiles(filesByCategories.get(type), type.toString());
+            }
         }
     }
 
