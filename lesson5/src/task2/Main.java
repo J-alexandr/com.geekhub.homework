@@ -12,15 +12,17 @@ public class Main {
     public static void main(String[] args) throws IOException {
         String parentDirectoryPath = readParentDirectoryPath();
 
-        FilesSearcher filesSearcher = new FilesSearcher(parentDirectoryPath);
-        List<File> files = filesSearcher.getListOfFiles();
-        Map<FileType, List<File>> filesByCategories = filesSearcher.sortFilesByType(files);
+        if (parentDirectoryPath != null) {
+            FilesSearcher filesSearcher = new FilesSearcher(parentDirectoryPath);
+            List<File> files = filesSearcher.getListOfFiles();
+            Map<FileType, List<File>> filesByCategories = filesSearcher.sortFilesByType(files);
 
-        Archivator archivator = new Archivator(parentDirectoryPath);
+            Archivator archivator = new Archivator(parentDirectoryPath);
 
-        archivator.archiveFiles(filesByCategories.get(FileType.AUDIO), FileType.AUDIO.toString());
-        archivator.archiveFiles(filesByCategories.get(FileType.IMAGE), FileType.IMAGE.toString());
-        archivator.archiveFiles(filesByCategories.get(FileType.VIDEO), FileType.VIDEO.toString());
+            archivator.archiveFiles(filesByCategories.get(FileType.AUDIO), FileType.AUDIO.toString());
+            archivator.archiveFiles(filesByCategories.get(FileType.IMAGE), FileType.IMAGE.toString());
+            archivator.archiveFiles(filesByCategories.get(FileType.VIDEO), FileType.VIDEO.toString());
+        }
     }
 
     private static String readParentDirectoryPath() {
