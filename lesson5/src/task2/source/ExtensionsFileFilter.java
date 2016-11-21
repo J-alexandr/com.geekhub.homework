@@ -1,13 +1,13 @@
-package task2;
+package task2.source;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
-public class ExtensionsFileFilter extends FileFilter {
+class ExtensionsFileFilter extends FileFilter {
     private Enum[] extensions;
     private String description;
 
-    public ExtensionsFileFilter(Enum[] extensions, String description) {
+    ExtensionsFileFilter(Enum[] extensions, String description) {
         this.extensions = extensions;
         this.description = description;
     }
