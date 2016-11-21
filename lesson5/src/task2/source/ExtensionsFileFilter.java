@@ -3,7 +3,7 @@ package task2.source;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
-class ExtensionsFileFilter extends FileFilter {
+public class ExtensionsFileFilter extends FileFilter {
     private Enum[] extensions;
     private String description;
 
