@@ -18,15 +18,17 @@ public class Main {
         FilesProvider filesProvider = new FilesProvider();
         if (filesProvider.isAllowed(parentDirectoryPath)) {
             List<File> files = filesProvider.getListOfFiles(parentDirectoryPath);
-            Map<FileType, List<File>> filesByCategories = filesProvider.sortFilesByType(files);
+            Map<FileType, List<File>> filesByType = filesProvider.sortFilesByType(files);
 
             Archivator archivator = new Archivator();
             for (FileType type : FileType.values()) {
-                try {
-                    archivator.archiveFiles(filesByCategories.get(type), parentDirectoryPath, type);
-                    System.out.println(type + " zipped successfully!");
-                } catch (ArchivatorException e) {
-                    System.out.println("Can't archivate " + type + ". Message: " + e.getMessage());
+                if (filesByType.get(type).size() > 0) {
+                    try {
+                        archivator.archiveFiles(filesByType.get(type), parentDirectoryPath, type);
+                        System.out.println(type + " zipped successfully!");
+                    } catch (ArchivatorException e) {
+                        System.out.println("Can't archivate " + type + ". Message: " + e.getMessage());
+                    }
                 }
             }
         } else {
