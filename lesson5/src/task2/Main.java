@@ -15,8 +15,8 @@ public class Main {
         System.out.println("Enter parent directory absolute path:");
         String parentDirectoryPath = readParentDirectoryPath();
 
-        if (parentDirectoryPath != null) {
-            FilesProvider filesProvider = new FilesProvider();
+        FilesProvider filesProvider = new FilesProvider();
+        if (filesProvider.isAllowed(parentDirectoryPath)) {
             List<File> files = filesProvider.getListOfFiles(parentDirectoryPath);
             Map<FileType, List<File>> filesByCategories = filesProvider.sortFilesByType(files);
 
@@ -30,7 +30,7 @@ public class Main {
                 }
             }
         } else {
-            System.out.println("Exception got while reading directory path.");
+            System.out.println("Provided parent directory path is incorrect.");
         }
     }
 
