@@ -1,43 +1,48 @@
 package task2;
 
+import task2.source.FileType;
+
 import java.io.*;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class Archivator {
-    private String parentDirectoryPath;
+class Archivator {
 
-    public Archivator(String parentDirectoryPath) {
-        this.parentDirectoryPath = parentDirectoryPath;
-    }
+    void archiveFiles(List<File> files, String parentDirectoryPath, FileType type) throws ArchivatorException {
+        String absoluteZipArchivePath = parentDirectoryPath.concat("\\")
+                .concat(type.toString())
+                .concat(".zip");
 
-    void archiveFiles(List<File> files, String archiveName) {
-        String absoluteZipArchivePath = parentDirectoryPath.concat("\\").concat(archiveName).concat(".zip");
-
-        try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(absoluteZipArchivePath))) {
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(absoluteZipArchivePath))) {
             for (File file : files) {
-
                 byte[] fileInBytes = readFileToBytes(file);
-                if (fileInBytes.length != 0) {
-                    ZipEntry entry1 = new ZipEntry(file.getCanonicalPath());
-                    zout.putNextEntry(entry1);
-                    zout.write(fileInBytes);
-                    zout.closeEntry();
-                }
+
+                ZipEntry entry = new ZipEntry(getRelativeFilePath(file, parentDirectoryPath));
+                zipOutputStream.putNextEntry(entry);
+                zipOutputStream.write(fileInBytes);
+                zipOutputStream.closeEntry();
             }
         } catch (Exception e) {
-            System.out.println("Exception got while zipping files. Message: " + e.getMessage());
+            throw new ArchivatorException(e);
         }
     }
 
-    private byte[] readFileToBytes(File file) {
-        try (FileInputStream fis = new FileInputStream(file)) {
-            byte[] buffer = new byte[fis.available()];
-            fis.read(buffer);
+    private byte[] readFileToBytes(File file) throws IOException {
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            byte[] buffer = new byte[fileInputStream.available()];
+            fileInputStream.read(buffer);
             return buffer;
-        } catch (IOException e) {
-            return new byte[0];
         }
+    }
+
+    private String getRelativeFilePath(File file, String parentDirectoryPath) {
+        String relativePath = file.getAbsolutePath()
+                .replace(parentDirectoryPath.replaceAll("/","\\\\"), "");
+
+        if (relativePath.startsWith("\\"))
+            return relativePath.replaceFirst("\\\\", "");
+
+        return relativePath;
     }
 }
