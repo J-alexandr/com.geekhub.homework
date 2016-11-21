@@ -1,5 +1,8 @@
 package task2;
 
+import task2.source.FileFiltersManager;
+import task2.source.FileType;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,19 +14,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-class FilesSearcher {
-    private String parentDirectoryPath;
+class FilesProvider {
     private Map<FileType, List<File>> filesByCategories;
 
-    FilesSearcher(String parentDirectoryPath) {
-        this.parentDirectoryPath = parentDirectoryPath;
+    FilesProvider() {
         filesByCategories = new HashMap<>();
         for (FileType type : FileType.values()) {
             filesByCategories.put(type, new ArrayList<>());
         }
     }
 
-    List<File> getListOfFiles() throws IOException {
+    List<File> getListOfFiles(String parentDirectoryPath) throws IOException {
         return Files.walk(Paths.get(parentDirectoryPath))
                 .filter(Files::isRegularFile)
                 .map(Path::toFile)
@@ -44,5 +45,9 @@ class FilesSearcher {
         }
 
         return filesByCategories;
+    }
+
+    boolean isAllowed(String pathToSource) {
+        return new File(pathToSource).isDirectory();
     }
 }
